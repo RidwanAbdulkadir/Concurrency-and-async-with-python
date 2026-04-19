@@ -1,5 +1,5 @@
 '''
-This is an example of a synchronous Python script. 
+Example 1: This is an example of a synchronous Python script. 
 '''
 import asyncio
 import time
@@ -28,7 +28,7 @@ t2 = time.time()
 print(f"Script completed in {t2 - t1:.2f} seconds.")
 
 '''
-Example of an asynchronous code in python below
+Example 2: Example of an asynchronous code in python below
 '''
 
 async def fetch_data_async():
