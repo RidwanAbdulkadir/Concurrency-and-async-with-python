@@ -53,3 +53,7 @@ print("Results:", results_async)
 t2 = time.time()
 print(f"Async script completed in {t2 - t1:.2f} seconds.")
 
+
+'''
+
+'''
