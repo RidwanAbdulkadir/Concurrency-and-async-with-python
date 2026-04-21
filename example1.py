@@ -55,5 +55,28 @@ print(f"Async script completed in {t2 - t1:.2f} seconds.")
 
 
 '''
-
+Example 3: asycnronous code with coroutine using asyncio.create_task
 '''
+
+async def fetch_data_async():
+    print("Fetching data asynchronously...")
+    await asyncio.sleep(2)  # Simulate a delay in fetching data
+    print("Data fetched successfully!")
+    return f"Results of async data fetching at {time.ctime()}"
+
+async def main_async_create():
+    task1 = asyncio.create_task(fetch_data_async())
+    task2 = asyncio.create_task(fetch_data_async())
+    results = await asyncio.gather(task1, task2)
+    print("Task 1 completed successfully.")
+    print("Task 2 completed successfully.")
+    return results
+
+
+t1 = time.time()
+
+results_async_create = asyncio.run(main_async_create())
+print("Results:", results_async_create)
+
+t2 = time.time()
+print(f"Async script with create_task completed in {t2 - t1:.2f} seconds.")
