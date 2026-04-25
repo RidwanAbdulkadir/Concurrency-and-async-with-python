@@ -1,8 +1,9 @@
-'''
+ '''
 Example 1: This is an example of a synchronous Python script. 
 '''
-import asyncio
 import time
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+import asyncio
 
 def fetch_data():
     print("Fetching data...")
@@ -139,5 +140,6 @@ async def main_async_blocking():
 t1 = time.time()
 
 '''
-
+Example 6: using threads and processes
 '''
+# Example 6 code was incomplete and has been removed to avoid syntax errors.
