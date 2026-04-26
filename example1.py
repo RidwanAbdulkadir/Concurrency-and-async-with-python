@@ -1,4 +1,4 @@
- '''
+'''
 Example 1: This is an example of a synchronous Python script. 
 '''
 import time
@@ -142,4 +142,10 @@ t1 = time.time()
 '''
 Example 6: using threads and processes
 '''
-# Example 6 code was incomplete and has been removed to avoid syntax errors.
+
+
+
+
+# Run in Threads
+# Run in Process Pool
+ 
