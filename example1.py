@@ -142,14 +142,24 @@ t1 = time.time()
 '''
 Example 6: using threads and processes
 '''
+async def fetch_data_async_thread():
+    print("Fetching data asynchronously in a thread...", flush=True)
+    time.sleep(2)  # Simulate a delay in fetching data
+    print("Data fetched successfully in thread!", flush=True)
+    return f"Results of async data fetching in thread at {time.ctime()}"
 
 
+async def main_thread():
+    # Run in Threads
+    with ThreadPoolExecutor() as executor:
+        loop = asyncio.get_running_loop()
+        task1 = loop.run_in_executor(executor, fetch_data_async_thread) # This runs the fetch_data_async_thread function in a separate thread using the ThreadPoolExecutor
+        task2 = loop.run_in_executor(executor, fetch_data_async_thread) # This runs the fetch_data_async_thread function in a separate thread using the ThreadPoolExecutor
+        results = await asyncio.gather(task1, task2) # This waits for both tasks to complete and gathers their results
+        print("Task 1 completed successfully.")
+        print("Task 2 completed successfully.")
+        return results
 
-
-# Run in Threads
-# Run in Process Pool
- 
-
-'''
- 
-'''
+        # Run in Process Pool
+        
+         
