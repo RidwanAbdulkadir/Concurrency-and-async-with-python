@@ -161,5 +161,12 @@ async def main_thread():
         return results
 
         # Run in Process Pool
-        
-         
+    with ProcessPoolExecutor() as executor:
+        loop = asyncio.get_running_loop()
+
+        task1 = loop.run_in_executor(executor, fetch_data_async_thread) # This runs the fetch_data_async_thread function in a separate process using the ProcessPoolExecutor
+        task2 = loop.run_in_executor(executor, fetch_data_async_thread) # This runs the fetch_data_async_thread function in a separate process using the ProcessPoolExecutor
+        results = await asyncio.gather(task1, task2) # This waits for both tasks to complete and gathers their results
+        print("Task 1 completed successfully.")
+        print("Task 2 completed successfully.")
+        return results
