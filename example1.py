@@ -171,5 +171,53 @@ async def main_thread():
         print("Task 2 completed successfully.")
         return results
 
-        '''
-        '''
+'''
+Example 7: Using gather or task group
+'''
+async def fetch_data_async_gather():
+    print("Fetching data asynchronously with gather...")
+    await asyncio.sleep(2)  # Simulate a delay in fetching data
+    print("Data fetched successfully with gather!")
+    return f"Results of async data fetching with gather at {time.ctime()}"
+
+async def main_async_gather():
+    task1 = fetch_data_async_gather()
+    task2 = fetch_data_async_gather()
+    results = await asyncio.gather(task1, task2)
+    print("Task 1 completed successfully.")
+    print("Task 2 completed successfully.")
+    return results
+
+async def run_gather_and_taskgroup_example():
+    print("Starting gather example with coroutine objects...")
+    results = await main_async_gather()
+    print("Results from main_async_gather:", results)
+
+    # Gather Coroutines
+    print("Starting gather with coroutine list...")
+    coroutines = [fetch_data_async_gather() for _ in range(5)]
+    results = await asyncio.gather(*coroutines, return_exceptions=True)
+    print("Results of gather with coroutine list:", results)
+
+    # Gather Tasks
+    print("Starting gather with created tasks...")
+    tasks = [asyncio.create_task(fetch_data_async_gather()) for _ in range(5)]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    print("Results of gather with tasks:", results)
+
+    # Task Group
+    print("Starting TaskGroup example...")
+    async with asyncio.TaskGroup() as tg:
+        task_group_tasks = [tg.create_task(fetch_data_async_gather()) for _ in range(5)]
+    results = [task.result() for task in task_group_tasks]
+    print("Results of task group:", results)
+
+    return results
+
+t1 = time.time()
+
+results = asyncio.run(run_gather_and_taskgroup_example())
+print("Results:", results)
+
+t2 = time.time()
+print(f"Async script with gather completed in {t2 - t1:.2f} seconds.")  
