@@ -1,6 +1,7 @@
 import time
 from pathlib import Path
-import requests
+from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 from PIL import Image
 
 IMAGE_URLS = [
@@ -23,30 +24,35 @@ ORIGINAL_DIR = Path("original_images")
 PROCESSED_DIR = Path("processed_images")
 
 
-def download_single_image(session: requests.Session, url: str, img_num: int) -> Path:
+def download_single_image(url: str, img_num: int) -> Path:
     print(f"Downloading {url}...")
     ts = int(time.time())
     url = f"{url}?ts={ts}"  # Add timestamp to avoid caching issues
-    response = session.get(url, timeout=10, allow_redirects=True)
-    response.raise_for_status()
+    request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+
+    try:
+        with urlopen(request, timeout=10) as response:
+            content = response.read()
+    except HTTPError as e:
+        raise RuntimeError(f"HTTP error while downloading {url}: {e.code} {e.reason}")
+    except URLError as e:
+        raise RuntimeError(f"URL error while downloading {url}: {e.reason}")
 
     filename = f"image_{img_num}.jpg"
     download_path = ORIGINAL_DIR / filename
 
     with download_path.open("wb") as f:
-        for chunk in response.iter_content(chunk_size=8192):
-            f.write(chunk)
+        f.write(content)
 
     print(f"Downloaded and saved to: {download_path}")
     return download_path
 
 
 def download_images(urls: list) -> list[Path]:
-    with requests.Session() as session:
-        img_paths = [
-            download_single_image(session, url, img_num)
-            for img_num, url in enumerate(urls, start=1)
-        ]
+    img_paths = [
+        download_single_image(url, img_num)
+        for img_num, url in enumerate(urls, start=1)
+    ]
 
     return img_paths
 
