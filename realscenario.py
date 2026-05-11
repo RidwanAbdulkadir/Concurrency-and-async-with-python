@@ -1,5 +1,5 @@
 '''
-Explanation: 
+Explanation:  -> 
 '''
 
 import time
