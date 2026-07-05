@@ -221,3 +221,27 @@ print("Results:", results)
 
 t2 = time.time()
 print(f"Async script with gather completed in {t2 - t1:.2f} seconds.")  
+
+
+
+
+'''
+Inventory Management System You are tasked with managing a dynamic inventory system where the stock levels of various products fluctuate over time. You have two arrays, products and changes, both of length n. Each element in products represents a product ID, and the corresponding element in changes indicates how much the stock level of that product should be adjusted at each point in time. Increasing Stock Levels: If changes[i] is positive, it means changes[i] units of the product with ID products[i] are added to the inventory at time i Decreasing Stock Levels: If changes[i] is negative, it means -changes[i] units of the product with ID products[i] are removed from the inventory at time i 8 9 Return an array inventory_status of length n, where inventory_status[i] represents the quantity of the most stocked product in the inventory after the ith update. If the inventory is empty at any point, inventory_status[i] should be 0 for that update. Example 1: Input: products = [101, 104, 101, 105], changes = [4,2,-4,3] Output: [4,4,2,3] Explanation: Something wrong with the question or blank content?
+'''
+
+def inventory_management(products, changes):
+    inventory = {}
+    inventory_status = []
+    
+    for product, change in zip(products, changes):
+        if product not in inventory:
+            inventory[product] = 0
+        inventory[product] += change
+        
+        if inventory[product] < 0:
+            inventory[product] = 0
+        
+        max_stock = max(inventory.values()) if inventory else 0
+        inventory_status.append(max_stock)
+    
+    return inventory_status
